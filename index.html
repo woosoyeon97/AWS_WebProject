@@ -2,78 +2,20 @@
 <html>
 
 <head>
-    <title>AWS S3 File Upload</title>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+  <script src="./app.js"></script>
+  <script>
+    function getHtml(template) {
+      return template.join('\n');
+    }
+    listAlbums();
+  </script>
 </head>
 
 <body>
-    <input type="file" id="file-chooser" />
-    <button id="upload-button">Upload to S3</button>
-    <div id="results"></div>
-    <script type="text/javascript">
-    AWS.config.region = 'ap-northeast-2'; // 1. Enter your region
-
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'ap-northeast-2:6ee90bef-9518-40b1-80c7-c958ee9f0042' // 2. Enter your identity pool
-    });
-
-    AWS.config.credentials.get(function(err) {
-        if (err) alert(err);
-        console.log(AWS.config.credentials);
-    });
-
-    var bucketName = 'nowsicimage1'; // Enter your bucket name
-    var bucket = new AWS.S3({
-        params: {
-            Bucket: bucketName
-        }
-    });
-
-    var fileChooser = document.getElementById('file-chooser');
-    var button = document.getElementById('upload-button');
-    var results = document.getElementById('results');
-    button.addEventListener('click', function() {
-
-        var file = fileChooser.files[0];
-
-        if (file) {
-
-            results.innerHTML = '';
-            var params = {
-                Key: file.name,
-                ContentType: file.type,
-                Body: file,
-                ACL: 'public-read'
-            };
-
-            bucket.putObject(params, function(err, data) {
-                if (err) {
-                    results.innerHTML = 'ERROR: ' + err;
-                } else {
-                    listObjs();
-                }
-            });
-        } else {
-            results.innerHTML = 'Nothing to upload.';
-        }
-    }, false);
-    function listObjs() {
-        var prefix = '';
-        bucket.listObjects({
-            Prefix: prefix
-        }, function(err, data) {
-            if (err) {
-                results.innerHTML = 'ERROR: ' + err;
-            } else {
-                var objKeys = "";
-                data.Contents.forEach(function(obj) {
-                    objKeys += obj.Key + "<br>";
-                });
-                results.innerHTML = objKeys;
-            }
-        });
-    }
-    </script>
+  <h1>My Photo Albums App</h1>
+  <div id="app"></div>
 </body>
 
 </html>
+<input type="file" id="file-chooser" />
