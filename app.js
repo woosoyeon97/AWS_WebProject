@@ -1,6 +1,6 @@
 var albumBucketName = 'formyprac';
 var bucketRegion = 'ap-northeast-2';
-var IdentityPoolId = 'ap-northeast-2:f39f019b-1063-40dd-b219-fd6bca0ebf9d';
+var IdentityPoolId = 'ap-northeast-2:f39f019';
 
 AWS.config.update({
   region: bucketRegion,
